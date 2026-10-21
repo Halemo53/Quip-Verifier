@@ -1,0 +1,429 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — Quip hybrid signature verifier.
+ * Terminal-adjacent: monospace, near-black, single amber accent, 2px max radius.
+ * No gradients (except the background scanline texture), no shadows, no blur.
+ * Lines are white at fixed opacities: 8% divider, 12% structure, 20% control, 40% focus/active.
+ * Spacing snaps to a 4/8px grid.
+ */
+
+@theme inline {
+  --font-sans: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --radius-xs: 1px;
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+  --radius-2xl: var(--radius);
+  --radius-3xl: var(--radius);
+  --radius-4xl: var(--radius);
+  --radius-full: var(--radius);
+
+  --text-body: var(--fs-body);
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: -0.01em;
+  --text-label: var(--fs-label);
+  --text-label--line-height: 16px;
+  --text-label--letter-spacing: 0.04em;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-valid: var(--valid);
+  --color-valid-text: var(--valid-text);
+  --color-compromised: var(--compromised);
+  --color-compromised-text: var(--compromised-text);
+  --color-hover-fill: var(--hover-fill);
+  --color-active-fill: var(--active-fill);
+
+  --color-divider: var(--line-divider);
+  --color-structure: var(--line-structure);
+  --color-control: var(--line-control);
+  --color-focus-line: var(--line-focus);
+  --color-rule: var(--rule);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 2px;
+  --fs-body: 15px;
+  --fs-label: 12px;
+
+  /* #0A0A0B */
+  --background: oklch(0.145 0.002 286.1);
+  /* #E8E6E3 */
+  --foreground: oklch(0.926 0.005 78.3);
+  /* Secondary text tiers are the base text color at reduced opacity — no extra grays. */
+  --muted-foreground: oklch(0.926 0.005 78.3 / 0.64);
+  --faint: oklch(0.926 0.005 78.3 / 0.48);
+
+  /* #C89B3C — the single accent. Active states, critical values, section markers, primary action. */
+  --accent: oklch(0.714 0.123 82.9);
+  --accent-foreground: var(--background);
+  --hover-fill: color-mix(in oklab, var(--accent) 8%, var(--background));
+  --active-fill: color-mix(in oklab, var(--accent) 12%, var(--background));
+
+  /* Status colors — badges and result lines only. */
+  /* #4A7C59 */
+  --valid: oklch(0.541 0.077 152.7);
+  --valid-text: oklch(0.661 0.074 153);
+  /* #7C4A4A */
+  --compromised: oklch(0.467 0.068 20);
+  --compromised-text: oklch(0.641 0.082 19.6);
+
+  /* Line work */
+  --line-divider: oklch(1 0 0 / 8%);
+  --line-structure: oklch(1 0 0 / 12%);
+  --line-control: oklch(1 0 0 / 20%);
+  --line-focus: oklch(1 0 0 / 40%);
+  --rule: oklch(1 0 0 / 15%);
+
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  --secondary: var(--background);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--background);
+  --destructive: var(--compromised);
+  --destructive-foreground: var(--foreground);
+  --border: var(--line-structure);
+  --input: var(--line-control);
+  --ring: var(--accent);
+
+  --chart-1: var(--accent);
+  --chart-2: var(--valid);
+  --chart-3: var(--compromised);
+  --chart-4: var(--muted-foreground);
+  --chart-5: var(--faint);
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--accent-foreground);
+  --sidebar-accent: var(--background);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--line-structure);
+  --sidebar-ring: var(--accent);
+
+  /* Faint scanline texture — page background only. */
+  --texture-scanline: repeating-linear-gradient(
+    to bottom,
+    var(--foreground) 0px,
+    var(--foreground) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@media (max-width: 479px) {
+  :root {
+    --fs-body: 14px;
+    --fs-label: 11px;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+    font-feature-settings: "calt" 0, "zero" 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--texture-scanline);
+    opacity: 0.03;
+    z-index: 0;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  /* Keyboard focus: 2px amber outline, 2px offset. Distinct from hover. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Buttons: 40px tall, 12px horizontal padding. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--line-control);
+    border-radius: var(--radius);
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: var(--fs-label);
+    line-height: 16px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color 100ms linear,
+      border-color 100ms linear,
+      color 100ms linear,
+      transform 60ms linear;
+  }
+  .btn:hover:not(:disabled) {
+    background-color: var(--hover-fill);
+    border-color: var(--line-focus);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+    background-color: var(--active-fill);
+    transition-duration: 60ms;
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* The single primary action on the page. */
+  .btn-primary {
+    border: 2px solid var(--accent);
+    padding: 0 11px;
+    color: var(--accent);
+  }
+  .btn-primary:hover:not(:disabled) {
+    border-color: var(--accent);
+  }
+  .btn-primary[aria-busy="true"]:disabled {
+    opacity: 1;
+  }
+
+  /* Text inputs and read-only value fields: same 40px / 12px box as buttons. */
+  .field {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--line-control);
+    border-radius: var(--radius);
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: var(--fs-body);
+    letter-spacing: -0.01em;
+    transition:
+      border-color 100ms linear,
+      background-color 100ms linear,
+      transform 60ms linear;
+  }
+  .field::placeholder {
+    color: var(--faint);
+  }
+  .field:hover:not(:disabled) {
+    border-color: var(--line-focus);
+  }
+  .field:focus {
+    border-color: var(--line-focus);
+  }
+  .field:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .field[aria-invalid="true"],
+  .field[aria-invalid="true"]:hover,
+  .field[aria-invalid="true"]:focus {
+    border-color: var(--compromised);
+  }
+
+  /* Click-to-copy hex/hash field. */
+  .copy-field {
+    cursor: copy;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .copy-field:hover {
+    background-color: var(--hover-fill);
+  }
+  .copy-field:active {
+    transform: translateY(1px);
+    background-color: var(--active-fill);
+  }
+
+  /* Links: base text → amber, no underline, 100ms linear. */
+  .link {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: color 100ms linear;
+  }
+  .link-muted {
+    color: var(--muted-foreground);
+  }
+  .link:hover {
+    color: var(--accent);
+  }
+  .link:active {
+    opacity: 0.8;
+  }
+
+  /* Strikethrough drawn left → right by a pseudo-element width transition. */
+  .strike {
+    position: relative;
+    display: inline-block;
+  }
+  .strike::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 1px;
+    width: 0;
+    background-color: var(--compromised-text);
+    transition: width 400ms linear;
+  }
+  .strike[data-struck="true"]::after {
+    width: 100%;
+  }
+
+  .glitch {
+    display: inline-block;
+    animation: glitch-shift 200ms steps(1, end) 1;
+  }
+
+  /* One-shot attention flash: 200ms in, 200ms hold, 200ms out. */
+  .flash-outline {
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+  }
+  .flash-outline[data-flash="true"] {
+    animation: outline-flash 600ms linear 1;
+  }
+
+  /* Internal scroll areas only (never the page). */
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2c transparent;
+  }
+  .scroll-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scroll-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background: #2a2a2c;
+  }
+}
+
+@keyframes glitch-shift {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(1px);
+  }
+  60% {
+    transform: translateX(2px);
+  }
+  80% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes outline-flash {
+  0% {
+    outline-color: transparent;
+  }
+  33.333%,
+  66.666% {
+    outline-color: var(--accent);
+  }
+  100% {
+    outline-color: transparent;
+  }
+}
+
+/* Small uppercase label / section marker */
+@utility label-caps {
+  font-size: var(--fs-label);
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Mechanical state transitions: linear, 100ms. */
+@utility transition-mech {
+  transition-property: color, background-color, border-color, opacity, outline-color;
+  transition-timing-function: linear;
+  transition-duration: 100ms;
+}
